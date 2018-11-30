@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using BethanysPieShop.Models;
 
 namespace BethanysPieShop
 {
@@ -31,7 +32,8 @@ namespace BethanysPieShop
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
+            services.AddTransient<ICategoryRepository, MockCategoryRepository>();
+            services.AddTransient<IPieRepository, MockPieRepository>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
