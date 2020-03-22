@@ -48,3 +48,15 @@ ul.product-props {
         border: 1px solid black;
         max-width: 150px;
     }
+
+menu li {
+    display:inline;
+}
+
+menu li::after{
+    content:' |';
+}
+
+menu li:last-of-type::after{
+    content: "";
+}
