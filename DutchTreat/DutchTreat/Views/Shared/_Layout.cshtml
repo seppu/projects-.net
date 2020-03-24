@@ -9,20 +9,21 @@
         <h1>Welcome to Dutch Treat</h1>
         <menu>
             <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/app/contact">Contact Us</a></li>
-                <li><a href="/app/about">About Us</a></li>
+                <li><a asp-controller="App" asp-action="Index">Home</a></li>
+                <li><a asp-controller="App" asp-action="Contact">Contact Us</a></li>
+                <li><a asp-controller="App" asp-action="About">About Us</a></li>
             </ul>
         </menu>
     </header>
 
     <section>
-        <h2>@ViewBag.Title</h2>+
+        <h2>@ViewBag.Title</h2>
         @RenderBody()
     </section>
     
     <footer>Coyright 2020 JA Consulting</footer>
     <script src="~/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="~/js/index.js"></script>
+    @RenderSection("scripts", false)
 </body>
 </html>
