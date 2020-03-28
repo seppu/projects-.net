@@ -1,0 +1,11 @@
+{
+  "ConnectionStrings": {
+    "DutchConnectionString": "server=(localdb)\\ProjectsV13;Database=DutchTreatDB;Integrated Security=True;Connect Timeout=30;MultipleActiveResultSets=true;"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning"
+    }
+  }
+}
