@@ -1,4 +1,5 @@
 ﻿using DutchTreat.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -18,21 +19,63 @@ namespace DutchTreat.Data
             this.logger = logger;
         }
 
+        public void AddEntity(object model)
+        {
+            ctx.Add(model);
+        }
+
+        public IEnumerable<Order> GetAllOrders(bool includeItems)
+        {
+            try
+            {
+                logger.LogInformation("GetAllOrders was called");
+                //return ctx.Orders.ToList();
+                if (includeItems)
+                {
+                    return ctx.Orders
+                        .Include(o => o.Items)
+                        .ThenInclude(i => i.Product)
+                        .ToList();
+                }
+                else
+                {
+                    return ctx.Orders
+                        .ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                logger.LogError($"Falied to get all orders: {ex}");
+                return null;
+            }
+            
+        }
+
         public IEnumerable<Product> GetAllProducts()
         {
             try
             {
                 logger.LogInformation("GetAllProducts was called");
-            return ctx.Products
-                .OrderBy(p => p.Title)
-                .ToList();
+                return ctx.Products
+                    .OrderBy(p => p.Title)
+                    .ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 logger.LogError($"Falied to get all products: {ex}");
                 return null;
             }
             
+        }
+
+        public Order GetOrderById(int id)
+        {
+            return ctx.Orders
+                        .Include(o => o.Items)
+                        .ThenInclude(i => i.Product)
+                        .Where(o => o.Id == id)
+                        .FirstOrDefault();
         }
 
         public IEnumerable<Product> GetProductsByCategory(string category)

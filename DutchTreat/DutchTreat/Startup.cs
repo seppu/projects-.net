@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using AutoMapper;
 using DutchTreat.Data;
 using DutchTreat.Services;
 using Microsoft.AspNetCore.Builder;
@@ -12,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
 
 namespace DutchTreat
 {
@@ -30,6 +33,7 @@ namespace DutchTreat
                 cfg.UseSqlServer(Configuration.GetConnectionString("DutchConnectionString"));
             });
             services.AddTransient<DutchSeeder>();
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddTransient<IMailService, NullMailService>();
             services.AddScoped<IDutchRepository, DutchRepository>();
             services.AddControllersWithViews();
@@ -38,21 +42,7 @@ namespace DutchTreat
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //}
-
-            //app.UseRouting();
-
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapGet("/", async context =>
-            //    {
-            //        await context.Response.WriteAsync("Hello World!");
-            //    });
-            //});
-            //app.UseDefaultFiles();
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -73,7 +63,7 @@ namespace DutchTreat
 
             app.UseEndpoints(cfg =>
             {
-                cfg.MapControllerRoute("Fallback",
+                cfg.MapControllerRoute("Default",
                     "{controller}/{action}/{id?}",
                     new { controller = "App", action = "Index" });
             });
