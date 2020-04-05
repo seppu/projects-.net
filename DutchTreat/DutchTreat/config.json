@@ -1,6 +1,7 @@
 {
   "ConnectionStrings": {
-    "DutchConnectionString": "server=(localdb)\\ProjectsV13;Database=DutchTreatDB;Integrated Security=True;Connect Timeout=30;MultipleActiveResultSets=true;"
+    //"DutchConnectionString": "server=(localdb)\\ProjectsV13;Database=DutchTreatDB;Integrated Security=True;Connect Timeout=30;MultipleActiveResultSets=true;"
+    "DutchConnectionString": "Server=localhost;Database=DutchTreatDB;User Id=sa;Password=16!1Rinku;"
   },
   "Logging": {
     "LogLevel": {
