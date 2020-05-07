@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using DutchTreat.Data;
@@ -16,7 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using Microsoft.IdentityModel.Tokens;
 
 namespace DutchTreat
 {
@@ -38,7 +39,16 @@ namespace DutchTreat
                 .AddEntityFrameworkStores<DutchContext>();
             services.AddAuthentication()
                 .AddCookie()
-                .AddJwtBearer();
+                .AddJwtBearer(cfg => 
+                {
+                    cfg.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidIssuer = Configuration["Tokens:Issuer"],
+                        ValidAudience = Configuration["Tokens:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"])),
+                        NameClaimType = System.Security.Claims.ClaimTypes.NameIdentifier
+                    };
+                });
             services.AddDbContext<DutchContext>(cfg => {
                 cfg.UseSqlServer(Configuration.GetConnectionString("DutchConnectionString"));
             });
